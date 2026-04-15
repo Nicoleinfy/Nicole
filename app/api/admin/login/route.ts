@@ -9,9 +9,9 @@ export async function POST(request: Request) {
 
   const cookieStore = await cookies();
   cookieStore.set("admin_session", process.env.ADMIN_PASSWORD!, {
-    httpOnly: true,
+    httpOnly: false,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 7 días
+    maxAge: 60 * 60 * 24 * 7,
     path: "/",
   });
 
