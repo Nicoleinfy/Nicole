@@ -48,10 +48,7 @@ export default function AdminDashboard() {
   }, [router]);
 
   useEffect(() => {
-    const pwd = document.cookie
-      .split("; ")
-      .find((r) => r.startsWith("admin_session="))
-      ?.split("=")[1];
+    const pwd = localStorage.getItem("admin_pwd");
     if (!pwd) {
       router.push("/admin");
       return;

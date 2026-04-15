@@ -22,6 +22,7 @@ export default function AdminLogin() {
         toast.error("Contraseña incorrecta");
         return;
       }
+      localStorage.setItem("admin_pwd", password);
       router.push("/admin/dashboard");
     } catch {
       toast.error("Error de conexión");
@@ -38,7 +39,6 @@ export default function AdminLogin() {
           <span className="text-2xl tracking-[0.3em] font-light" style={{ color: "#9b8ea8" }}>✦ Santoliva</span>
           <p className="text-xs tracking-widest mt-1" style={{ color: "#b0a8b9" }}>PANEL DE ADMINISTRACIÓN</p>
         </div>
-
         <div className="bg-white rounded-3xl p-8" style={{ boxShadow: "0 4px 40px rgba(155,142,168,0.08)" }}>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
