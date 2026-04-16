@@ -243,7 +243,7 @@ export default function ReservaPage() {
                 <div className="space-y-5">
                   <div>
                     <p className="text-xs tracking-widest uppercase mb-3" style={{ color: "#c4bccb" }}>Mañana</p>
-                    <div className="grid grid-cols-5 gap-2">
+                    <div className="grid grid-cols-4 gap-2">
                       {slots.filter((s) => parseInt(s.inicio) < 13).map((slot) => (
                         <button
                           key={slot.inicio}

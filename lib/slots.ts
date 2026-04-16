@@ -1,9 +1,11 @@
 export const SLOTS_MANANA = [
+  { inicio: "09:00", fin: "09:30" },
   { inicio: "09:30", fin: "10:00" },
   { inicio: "10:00", fin: "10:30" },
   { inicio: "10:30", fin: "11:00" },
   { inicio: "11:00", fin: "11:30" },
   { inicio: "11:30", fin: "12:00" },
+  { inicio: "12:00", fin: "12:30" },
 ];
 
 export const SLOTS_TARDE = [
