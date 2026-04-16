@@ -175,7 +175,7 @@ export default function AdminDashboard() {
                   <tr key={r.id}
                     style={{ borderBottom: i < reservas.length - 1 ? "1px solid #f7f5f9" : "none" }}>
                     <td className="px-6 py-4 text-xs font-light capitalize" style={{ color: "#7a6b82" }}>
-                      {format(parseISO(r.fecha), "EEE d MMM", { locale: es })}
+                      {format(parseISO(r.fecha.slice(0, 10)), "EEE d MMM", { locale: es })}
                     </td>
                     <td className="px-6 py-4 text-xs font-light" style={{ color: "#7a6b82" }}>
                       {r.horaInicio} – {r.horaFin}
