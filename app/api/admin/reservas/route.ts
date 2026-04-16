@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
+import { parseISO, startOfDay } from "date-fns";
 
 function isAuthorized(request: Request) {
   const authHeader = request.headers.get("authorization");
@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   const fecha = searchParams.get("fecha");
 
   const where = fecha
-    ? { fecha: new Date(fecha) }
+    ? { fecha: startOfDay(parseISO(fecha)) }
     : {};
 
   const reservas = await prisma.reserva.findMany({
