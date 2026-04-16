@@ -139,7 +139,7 @@ export default function ReservaPage() {
             <div>
               <p className="text-white/80 text-xs font-medium tracking-wide">Ubicación</p>
               <p className="text-white/55 text-xs mt-0.5 leading-relaxed">
-                Edificio Paseo las Artes<br />Av. Alemania 0999, oficina 1001
+                Edificio Paseo las Artes<br />Av. Alemania 0999
               </p>
             </div>
           </div>
