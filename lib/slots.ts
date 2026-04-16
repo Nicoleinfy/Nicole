@@ -28,7 +28,7 @@ export function esDiaHabil(fecha: Date): boolean {
 export function esSlotBloqueado(fecha: Date, horaInicio: string): boolean {
   const dia = fecha.getDay(); // 4 = jueves
   const hora = parseInt(horaInicio);
-  // Jueves: solo jornada de tarde bloqueada (14:30 en adelante)
-  if (dia === 4 && hora >= 13) return true;
+  // Jueves y viernes: jornada de tarde bloqueada (14:30 en adelante)
+  if ((dia === 4 || dia === 5) && hora >= 13) return true;
   return false;
 }
