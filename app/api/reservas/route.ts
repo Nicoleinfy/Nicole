@@ -21,8 +21,8 @@ export async function POST(request: Request) {
 
   // Comparar en hora Chile (UTC-4). Se restan 4h a UTC para obtener fecha local chilena.
   const ahoraChile = new Date(Date.now() - 4 * 60 * 60 * 1000);
-  if (!isAfter(startOfDay(fechaDate), startOfDay(ahoraChile))) {
-    return Response.json({ error: "No se puede reservar para fechas pasadas o el día de hoy" }, { status: 400 });
+  if (startOfDay(fechaDate) < startOfDay(ahoraChile)) {
+    return Response.json({ error: "No se puede reservar para fechas pasadas" }, { status: 400 });
   }
 
   if (esSlotBloqueado(fechaDate, horaInicio)) {
