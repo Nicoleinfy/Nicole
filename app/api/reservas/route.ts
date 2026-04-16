@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { enviarConfirmacionWhatsApp } from "@/lib/whatsapp";
-import { esDiaHabil } from "@/lib/slots";
-import { parseISO, startOfDay, format } from "date-fns";
+import { esDiaHabil, esSlotBloqueado } from "@/lib/slots";
+import { parseISO, startOfDay, isAfter, format } from "date-fns";
 import { es } from "date-fns/locale";
 
 export async function POST(request: Request) {
@@ -17,6 +17,14 @@ export async function POST(request: Request) {
 
   if (!esDiaHabil(fechaDate)) {
     return Response.json({ error: "Solo se puede reservar de lunes a viernes" }, { status: 400 });
+  }
+
+  if (!isAfter(startOfDay(fechaDate), startOfDay(new Date()))) {
+    return Response.json({ error: "No se puede reservar para fechas pasadas o el día de hoy" }, { status: 400 });
+  }
+
+  if (esSlotBloqueado(fechaDate, horaInicio)) {
+    return Response.json({ error: "Este horario no está disponible" }, { status: 400 });
   }
 
   try {

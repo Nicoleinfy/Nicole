@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { format, isBefore, startOfDay } from "date-fns";
+import { format, isAfter, startOfDay } from "date-fns";
 import { es } from "date-fns/locale";
 
 interface Slot {
@@ -38,7 +38,7 @@ export default function ReservaPage() {
 
   function isDiaDeshabilitado(fecha: Date): boolean {
     const hoy = startOfDay(new Date());
-    if (isBefore(fecha, hoy)) return true;
+    if (!isAfter(fecha, hoy)) return true;
     const dia = fecha.getDay();
     return dia === 0 || dia === 6;
   }

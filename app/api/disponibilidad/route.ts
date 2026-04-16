@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { TODOS_LOS_SLOTS, esDiaHabil } from "@/lib/slots";
-import { parseISO, startOfDay } from "date-fns";
+import { TODOS_LOS_SLOTS, esDiaHabil, esSlotBloqueado } from "@/lib/slots";
+import { parseISO, startOfDay, isAfter } from "date-fns";
 
 export async function GET(request: NextRequest) {
   const fecha = request.nextUrl.searchParams.get("fecha");
@@ -13,6 +13,10 @@ export async function GET(request: NextRequest) {
   const fechaDate = parseISO(fecha);
 
   if (!esDiaHabil(fechaDate)) {
+    return Response.json({ slots: [] });
+  }
+
+  if (!isAfter(startOfDay(fechaDate), startOfDay(new Date()))) {
     return Response.json({ slots: [] });
   }
 
@@ -28,7 +32,7 @@ export async function GET(request: NextRequest) {
 
   const slots = TODOS_LOS_SLOTS.map((slot) => ({
     ...slot,
-    disponible: !ocupados.has(slot.inicio),
+    disponible: !ocupados.has(slot.inicio) && !esSlotBloqueado(fechaDate, slot.inicio),
   }));
 
   return Response.json({ slots });

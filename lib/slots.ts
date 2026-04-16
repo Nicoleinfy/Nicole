@@ -21,3 +21,11 @@ export function esDiaHabil(fecha: Date): boolean {
   const dia = fecha.getDay(); // 0=Dom, 1=Lun, ..., 6=Sab
   return dia >= 1 && dia <= 5;
 }
+
+// Retorna true si el slot está bloqueado para una fecha dada
+export function esSlotBloqueado(fecha: Date, horaInicio: string): boolean {
+  const hora = parseInt(horaInicio);
+  // Todos los horarios de tarde bloqueados (14:30 en adelante)
+  if (hora >= 13) return true;
+  return false;
+}
