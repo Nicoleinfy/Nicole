@@ -30,8 +30,13 @@ export function esSlotBloqueado(fecha: Date, horaInicio: string): boolean {
   const hora = parseInt(horaInicio);
   // Jueves: jornada de tarde bloqueada (14:30 en adelante)
   if (dia === 4 && hora >= 13) return true;
-  // Viernes 17 de abril 2026: solo tarde bloqueada
   const fechaStr = fecha.toISOString().slice(0, 10);
+  // Viernes 17 de abril 2026: tarde bloqueada
   if (fechaStr === "2026-04-17" && hora >= 13) return true;
+  // Miércoles 22 de abril 2026: bloqueadas 10:00, 10:30, 11:00, 11:30, 12:00, 13:00
+  if (fechaStr === "2026-04-22") {
+    const bloqueadas = ["10:00", "10:30", "11:00", "11:30", "12:00", "13:00"];
+    if (bloqueadas.includes(horaInicio)) return true;
+  }
   return false;
 }
