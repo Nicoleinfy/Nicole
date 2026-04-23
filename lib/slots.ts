@@ -1,20 +1,22 @@
-export const SLOTS_MANANA = [
-  { inicio: "09:00", fin: "09:30" },
-  { inicio: "09:30", fin: "10:00" },
-  { inicio: "10:00", fin: "10:30" },
-  { inicio: "10:30", fin: "11:00" },
-  { inicio: "11:00", fin: "11:30" },
-  { inicio: "11:30", fin: "12:00" },
-  { inicio: "12:00", fin: "12:30" },
-];
+function generarSlots(inicioHora: number, inicioMin: number, finHora: number, finMin: number) {
+  const slots = [];
+  let h = inicioHora, m = inicioMin;
+  while (h < finHora || (h === finHora && m < finMin)) {
+    const nextM = m + 10;
+    const nextH = nextM >= 60 ? h + 1 : h;
+    const normNextM = nextM >= 60 ? nextM - 60 : nextM;
+    slots.push({
+      inicio: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+      fin: `${String(nextH).padStart(2, "0")}:${String(normNextM).padStart(2, "0")}`,
+    });
+    h = nextH;
+    m = normNextM;
+  }
+  return slots;
+}
 
-export const SLOTS_TARDE = [
-  { inicio: "14:30", fin: "15:00" },
-  { inicio: "15:00", fin: "15:30" },
-  { inicio: "15:30", fin: "16:00" },
-  { inicio: "16:00", fin: "16:30" },
-  { inicio: "16:30", fin: "17:00" },
-];
+export const SLOTS_MANANA = generarSlots(9, 0, 12, 30);   // 09:00 – 12:20 (último termina 12:30)
+export const SLOTS_TARDE  = generarSlots(14, 30, 17, 0);  // 14:30 – 16:50 (último termina 17:00)
 
 export const TODOS_LOS_SLOTS = [...SLOTS_MANANA, ...SLOTS_TARDE];
 
@@ -30,10 +32,7 @@ export function esSlotBloqueado(fecha: Date, horaInicio: string): boolean {
   const fechaStr = fecha.toISOString().slice(0, 10);
   // Viernes 17 de abril 2026: tarde bloqueada
   if (fechaStr === "2026-04-17" && hora >= 13) return true;
-  // Miércoles 22 de abril 2026: bloqueadas 10:00, 10:30, 11:00, 11:30, 12:00, 13:00
-  if (fechaStr === "2026-04-22") {
-    const bloqueadas = ["10:00", "10:30", "11:00", "11:30", "12:00", "13:00"];
-    if (bloqueadas.includes(horaInicio)) return true;
-  }
+  // Miércoles 22 de abril 2026: bloqueadas desde 10:00 hasta 12:00 (inclusive)
+  if (fechaStr === "2026-04-22" && hora >= 10 && hora < 13) return true;
   return false;
 }
